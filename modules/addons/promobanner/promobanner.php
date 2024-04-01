@@ -9,13 +9,27 @@ function promobanner_config() {
         'name' => 'PromoBanner',
         'description' => 'Displays a customizable promotional banner with a clickable link.',
         'version' => '1.0',
-        'author' => 'Your Name',
+        'author' => 'PromoBanner',
         'fields' => [
             'bannerEnabled' => [
                 'FriendlyName' => 'Banner Enabled',
                 'Type' => 'yesno',
                 'Description' => 'Tick to enable the promo banner.',
                 'Default' => 'yes',
+            ],
+            'scheduleStart' => [
+                'FriendlyName' => 'Schedule Start',
+                'Type' => 'text',
+                'Size' => '25',
+                'Default' => '',
+                'Description' => 'Enter the start date and time (YYYY-MM-DD HH:MM:SS). Example: 2024-01-01 12:00:00',
+            ],
+            'scheduleEnd' => [
+                'FriendlyName' => 'Schedule End',
+                'Type' => 'text',
+                'Size' => '25',
+                'Default' => '',
+                'Description' => 'Enter the end date and time (YYYY-MM-DD HH:MM:SS). Example: 2024-12-31 23:59:59',
             ],
             'promoCode' => [
                 'FriendlyName' => 'Promo Code',
@@ -41,6 +55,12 @@ function promobanner_config() {
                 ],
                 'Description' => 'Select the boldness of the banner text.',
                 'Default' => '400',
+            ],
+            'linkUnderlineOnHover' => [
+                'FriendlyName' => 'Link Underline on Hover',
+                'Type' => 'yesno',
+                'Description' => 'Enable to show an underline on the banner link when hovered over.',
+                'Default' => 'yes',
             ],
             'textColor' => [
                 'FriendlyName' => 'Text Color',

@@ -15,12 +15,34 @@ add_hook('ClientAreaHeadOutput', 1, function($vars) {
         return '';
     }
 
+    $displayBanner = true; // Default to displaying the banner
+
+    // Attempt to parse the schedule start and end times
+    $startTime = !empty($settings['scheduleStart']) ? DateTime::createFromFormat('Y-m-d H:i:s', $settings['scheduleStart']) : false;
+    $endTime = !empty($settings['scheduleEnd']) ? DateTime::createFromFormat('Y-m-d H:i:s', $settings['scheduleEnd']) : false;
+    $currentTime = new DateTime();
+
+    // If both start and end times are valid, check if the current time is within the range
+    if ($startTime && $endTime) {
+        if ($currentTime < $startTime || $currentTime > $endTime) {
+            $displayBanner = false; // Outside the scheduled time range
+        }
+    }
+
+    if (!$displayBanner) {
+        return ''; // Don't display the banner if it's outside the scheduled time or conditions aren't met
+    }
+
     $bannerText = $settings['bannerText'] ?? "Welcome to our latest promotion!";
     $bannerColor = $settings['bannerColor'] ?? "#007bff";
     $promoCode = $settings['promoCode'] ?? '';
     $textBoldness = $settings['textBoldness'] ?? '400';
     $hoverColor = $settings['hoverColor'] ?? '#0056b3';
     $textColor = $settings['textColor'] ?? '#FFFFFF';
+    $linkUnderlineOnHover = $settings['linkUnderlineOnHover'] ?? 'yes';
+    $underlineCSS = $linkUnderlineOnHover === 'yes' ? 'text-decoration: underline;' : 'text-decoration: none;';
+
+    
 
     // Dynamically fetch the system URL
     $systemUrl = \WHMCS\Config\Setting::getValue('SystemURL');
@@ -43,6 +65,7 @@ add_hook('ClientAreaHeadOutput', 1, function($vars) {
                 }
                 .promo-banner:hover {
                     color: {$hoverColor};
+                    $underlineCSS
                 }
             </style>";
 
